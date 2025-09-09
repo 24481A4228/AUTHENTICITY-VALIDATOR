@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Authenticity Validator</title>
+</head>
+<body>
+  <h2>Upload Certificate</h2>
+  <form id="uploadForm">
+    <input type="file" id="fileInput" />
+    <button type="submit">Upload</button>
+  </form>
+
+  <p id="result"></p>
+
+  <script>
+    document.getElementById("uploadForm").onsubmit = async (e) => {
+      e.preventDefault();
+      let file = document.getElementById("fileInput").files[0];
+      let formData = new FormData();
+      formData.append("file", file);
+
+      let res = await fetch("http://127.0.0.1:8000/upload", {
+        method: "POST",
+        body: formData,
+      });
+
+      let data = await res.json();
+      document.getElementById("result").innerText = JSON.stringify(data);
+    };
+  </script>
+</body>
+</html>
